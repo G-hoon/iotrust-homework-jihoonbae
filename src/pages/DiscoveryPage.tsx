@@ -1,5 +1,6 @@
 import { useModalStore } from '@/app/store/useModalStore';
 import { AppListItem, useApps, useFavoriteApps } from '@/entities/app';
+import { AppDetailModal } from '@/entities/app/ui/modal/AppDetailModal';
 import FavoriteAppDeleteComfirmModal from '@/entities/app/ui/modal/FavoriteAppDeleteComfirmModal';
 import { BannerCarouselContainer } from '@/features/banner';
 import { LoadingIndicator } from '@/widgets/LoadingIndicator';
@@ -24,6 +25,20 @@ export function DiscoveryPage() {
 			},
 		});
 	};
+
+	const handleClickApp = (id: string) => {
+		const selectedApp = apps?.find((app) => app.id === id);
+		showModal({
+			component: AppDetailModal,
+			props: {
+				iconUrl: selectedApp?.iconUrl,
+				title: selectedApp?.name,
+				description: selectedApp?.description.ko,
+				link: selectedApp?.url,
+			},
+		});
+	};
+
 	return (
 		<main className="bg-white flex flex-col gap-[30px] h-real-screen max-w-[634px] mx-auto">
 			{/* 상단 배너 섹션 */}
@@ -35,25 +50,26 @@ export function DiscoveryPage() {
 			<section className="px-7">
 				<h2 className="text-[18px]">즐겨찾기</h2>
 				<div className="h-[1px] bg-gray-300 mt-2" />
-				{favoritesLoading ? (
-					<LoadingIndicator className="h-[200px]" />
-				) : favoritesError ? (
+				{favoritesLoading && <LoadingIndicator className="h-[200px]" />}
+				{favoritesError && (
 					<div className="flex items-center justify-center py-8">
 						<div className="text-red-500">
 							즐겨찾기를 불러오는 중 오류가 발생했습니다.
 						</div>
 					</div>
-				) : (
-					<ul className="flex flex-col">
-						{favoriteApps?.map((app) => (
+				)}
+				{!favoritesLoading && !favoritesError && favoriteApps && (
+					<div className="flex flex-col">
+						{favoriteApps.map((app) => (
 							<AppListItem
 								key={app.id}
 								app={app}
 								isFavorite
 								onDeleteFavorite={() => handleDeleteFavorite(app.id)}
+								onClick={() => handleClickApp(app.id)}
 							/>
 						))}
-					</ul>
+					</div>
 				)}
 			</section>
 
@@ -69,12 +85,16 @@ export function DiscoveryPage() {
 						</p>
 					</div>
 				)}
-				{!appsLoading && !appsError && (
-					<ul className="flex flex-col">
-						{apps?.map((app) => (
-							<AppListItem key={app.id} app={app} />
+				{!appsLoading && !appsError && apps && (
+					<div className="flex flex-col">
+						{apps.map((app) => (
+							<AppListItem
+								key={app.id}
+								app={app}
+								onClick={() => handleClickApp(app.id)}
+							/>
 						))}
-					</ul>
+					</div>
 				)}
 			</section>
 		</main>
