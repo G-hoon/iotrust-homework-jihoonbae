@@ -62,14 +62,14 @@ export function ModalRenderer() {
 
 	return createPortal(
 		<div className="fixed inset-0 z-50 flex items-center justify-center">
-			{/** biome-ignore lint/a11y/noStaticElementInteractions: <explanation> */}
+			{/** biome-ignore lint/a11y/noStaticElementInteractions: dimmed background for modal */}
 			<div
 				className="pointer-events-auto absolute inset-0 bg-black opacity-70"
 				onClick={handleDimmedClick}
 				aria-label="dimmed"
 				role="presentation"
 			/>
-			{/** biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+			{/** biome-ignore lint/a11y/useKeyWithClickEvents: modal container with click handler */}
 			<div
 				className="relative z-10"
 				onClick={(e) => e.stopPropagation()}
