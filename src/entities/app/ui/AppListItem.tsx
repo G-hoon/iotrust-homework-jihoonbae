@@ -32,14 +32,14 @@ export function AppListItem({
 	return (
 		<li key={app.id} className="border-b border-gray-300 py-[14px]">
 			<article className="flex items-center gap-3">
-				<div className="w-[100px] aspect-square rounded-lg flex items-center justify-center outline outline-gray-300 object-cover">
+				<div className="w-[70px] aspect-square rounded-lg flex items-center justify-center outline outline-gray-300 object-cover">
 					<img src={'https://picsum.photos/600/400'} alt={app.name} />
 				</div>
-				<div className="flex flex-col gap-3 flex-1 min-w-0">
-					<h3 className="text-[36px] leading-[1] font-medium text-gray-900 truncate line-clamp-1">
+				<div className="flex flex-col gap-2 flex-1 min-w-0">
+					<h3 className="text-[24px] leading-[1] font-medium text-gray-900 truncate line-clamp-1">
 						{app.name}
 					</h3>
-					<p className="text-[18px] text-gray-500 leading-[22px] line-clamp-1">
+					<p className="text-[15px] text-gray-500  line-clamp-1">
 						{app.description.ko || app.description.en}
 					</p>
 				</div>
@@ -50,7 +50,7 @@ export function AppListItem({
 						onClick={onDeleteFavorite}
 					>
 						<BookMarkIcon className="w-8 h-8" />
-						<span>삭제</span>
+						<span className="text-[14px]">삭제</span>
 					</button>
 				)}
 			</article>

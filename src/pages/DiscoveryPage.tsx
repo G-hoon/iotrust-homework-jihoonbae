@@ -1,4 +1,6 @@
-import { AppListItem } from '@/shared/ui';
+import { AppListItem } from '@/entities/app/ui/AppListItem';
+import { bannerData } from '@/features/banner/data';
+import { BannerCarousel } from '@/features/banner/ui/BannerCarousel';
 
 export function DiscoveryPage() {
 	const favoriteApps = [
@@ -186,10 +188,16 @@ export function DiscoveryPage() {
 		console.log(id);
 	};
 	return (
-		<main className="bg-white px-10 flex flex-col gap-10 min-h-screen max-w-[634px] mx-auto">
+		<main className="bg-white flex flex-col gap-[30px] min-h-screen max-w-[634px] mx-auto">
 			{/* 상단 배너 섹션 */}
-			<section className="bg-white mt-[10px]">
-				<h2 className="text-[22px]">즐겨찾기</h2>
+			<section className="bg-white mb-[10px]">
+				<BannerCarousel banners={bannerData} language="ko" />
+			</section>
+
+			{/* 즐겨찾기 섹션 */}
+			<section className="px-7">
+				<h2 className="text-[18px]">즐겨찾기</h2>
+				<div className="h-[1px] bg-gray-300 mt-2" />
 				<ul className="flex flex-col">
 					{favoriteApps.map((app) => (
 						<AppListItem
@@ -202,9 +210,10 @@ export function DiscoveryPage() {
 				</ul>
 			</section>
 
-			{/* 즐겨찾기 섹션 */}
-			<section className="bg-white">
-				<h2 className="text-[22px]">목록</h2>
+			{/* 앱 목록 섹션 */}
+			<section className="px-7">
+				<h2 className="text-[18px]">목록</h2>
+				<div className="h-[1px] bg-gray-300 mt-2" />
 				<ul className="flex flex-col">
 					{tempMockData.map((app) => (
 						<AppListItem key={app.id} app={app} />

@@ -25,7 +25,10 @@
 		"paths": {
 			"@/*": ["./src/*"],
 			"app/*": ["./src/app/*"],
-			"pages/*": ["./src/pages/*"]
+			"pages/*": ["./src/pages/*"],
+			"shared/*": ["./src/shared/*"],
+			"features/*": ["./src/features/*"],
+			"entities/*": ["./src/entities/*"]
 		}
 	},
 	"include": ["src"]
