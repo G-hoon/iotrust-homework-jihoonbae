@@ -1,10 +1,15 @@
+import { BrowserRouter } from 'react-router-dom';
+import { AppRouter } from '../router/AppRouter';
+import { ModalRenderer } from './ModalRenderer';
 import { QueryProvider } from './QueryProvider';
-import { RouterProvider } from './RouteProvider';
 
 export const AppProviders = () => {
 	return (
 		<QueryProvider>
-			<RouterProvider />
+			<BrowserRouter>
+				<ModalRenderer />
+				<AppRouter />
+			</BrowserRouter>
 		</QueryProvider>
 	);
 };

@@ -1,11 +1,63 @@
 @import "tailwindcss";
 
+@tailwind utilities;
+
 :root {
 	font-family: "Pretendard Variable", Pretendard, sans-serif;
 	font-synthesis: none;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+@layer utilities {
+	.h-real-screen {
+		height: 100vh; /* Fallback for older browsers */
+	}
+
+	@supports (height: 100dvh) {
+		.h-real-screen {
+			height: 100dvh;
+		}
+	}
+
+	@supports (height: calc(var(--vh, 1vh) * 100)) {
+		.h-real-screen {
+			height: calc(var(--vh, 1vh) * 100);
+		}
+	}
+
+	.min-h-real-screen {
+		min-height: 100vh; /* Fallback for older browsers */
+	}
+
+	@supports (min-height: 100dvh) {
+		.min-h-real-screen {
+			min-height: 100dvh;
+		}
+	}
+
+	@supports (min-height: calc(var(--vh, 1vh) * 100)) {
+		.min-h-real-screen {
+			min-height: calc(var(--vh, 1vh) * 100);
+		}
+	}
+
+	.max-h-real-screen {
+		max-height: 100vh; /* Fallback for older browsers */
+	}
+
+	@supports (max-height: 100dvh) {
+		.max-h-real-screen {
+			max-height: 100dvh;
+		}
+	}
+
+	@supports (max-height: calc(var(--vh, 1vh) * 100)) {
+		.max-h-real-screen {
+			max-height: calc(var(--vh, 1vh) * 100);
+		}
+	}
 }
 
 * {
