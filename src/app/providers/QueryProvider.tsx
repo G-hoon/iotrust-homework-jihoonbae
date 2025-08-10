@@ -23,7 +23,7 @@ export const QueryProvider = ({ children }: QueryProviderProps) => {
 		<QueryClientProvider client={queryClient}>
 			{children}
 			{/* 개발 환경에서만 DevTools 표시 */}
-			{import.meta.env.DEV && (
+			{import.meta.env.VITE_APP_ENV === 'dev' && (
 				<ReactQueryDevtools
 					initialIsOpen={false}
 					buttonPosition="bottom-right"

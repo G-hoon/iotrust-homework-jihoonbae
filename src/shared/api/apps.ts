@@ -185,8 +185,25 @@ const mockFavoriteAppsData: AppData[] = [
 ];
 
 export const appsApi = {
-	async getApps(): Promise<AppData[]> {
-		return mockApiCall('/apps', 'GET', mockAppsData, 500);
+	async getApps(filters: {
+		language: string;
+		platform: 'ios' | 'android';
+		environment: 'dev' | 'stage' | 'prod';
+	}): Promise<AppData[]> {
+		const { language, platform, environment } = filters;
+
+		const filteredData = mockAppsData.filter((app) => {
+			const { conditions } = app;
+			if (!conditions) return true;
+
+			const languageMatch = conditions.languages.includes(language);
+			const platformMatch = conditions.platforms.includes(platform);
+			const environmentMatch = conditions.environments.includes(environment);
+
+			return languageMatch && platformMatch && environmentMatch;
+		});
+
+		return mockApiCall('/apps', 'GET', filteredData, 500);
 	},
 
 	async getFavoriteApps(): Promise<AppData[]> {

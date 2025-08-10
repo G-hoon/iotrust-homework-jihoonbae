@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { LoadingIndicator } from '@/widgets/LoadingIndicator';
 import { useRemoveFavoriteApp } from '../../api/queries';
 
@@ -10,6 +11,7 @@ export default function FavoriteAppDeleteComfirmModal({
 	onConfirm?: () => void;
 	onClose?: () => void;
 }) {
+	const { t } = useTranslation();
 	const removeFavoriteMutation = useRemoveFavoriteApp();
 
 	const handleConfirm = () => {
@@ -20,10 +22,10 @@ export default function FavoriteAppDeleteComfirmModal({
 	return (
 		<div className="w-[350px] flex flex-col h-[180px] items-center rounded-lg bg-white py-4 px-[10px]">
 			<div className="border-b-2 w-full border-dashed border-gray-300 pb-3 text-center">
-				<h1 className="text-[20px]">즐겨찾기 삭제</h1>
+				<h1 className="text-[20px]">{t('delete_favorite')}</h1>
 			</div>
 			<p className="text-[16px] text-center py-[18px]">
-				이 사이트를 즐겨찾기 목록에서 삭제하시겠습니까?
+				{t('delete_favorite_confirm')}
 			</p>
 			<div className="flex items-center justify-center w-full gap-5">
 				<button
@@ -32,7 +34,7 @@ export default function FavoriteAppDeleteComfirmModal({
 					onClick={onClose}
 					disabled={removeFavoriteMutation.isPending}
 				>
-					취소
+					{t('cancel')}
 				</button>
 				<button
 					type="button"
@@ -43,7 +45,7 @@ export default function FavoriteAppDeleteComfirmModal({
 					{removeFavoriteMutation.isPending ? (
 						<LoadingIndicator size={14} />
 					) : (
-						'확인'
+						t('button_confirm')
 					)}
 				</button>
 			</div>

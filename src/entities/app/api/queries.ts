@@ -1,17 +1,25 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { appsApi } from '@/shared/api/apps';
+import { useDevToolStore } from '@/shared/store/useDevToolStore';
 import type { AppData } from '../types';
 
 export const APPS_QUERY_KEYS = {
 	all: ['apps'] as const,
-	apps: () => [...APPS_QUERY_KEYS.all, 'list'] as const,
+	apps: (platform: string) =>
+		[...APPS_QUERY_KEYS.all, 'list', platform] as const,
 	favorites: () => [...APPS_QUERY_KEYS.all, 'favorites'] as const,
 } as const;
 
 export function useApps() {
+	const { i18n } = useTranslation();
+	const { platform } = useDevToolStore();
+	const environment = import.meta.env.VITE_APP_ENV as 'dev' | 'stage' | 'prod';
+
 	return useQuery({
-		queryKey: APPS_QUERY_KEYS.apps(),
-		queryFn: appsApi.getApps,
+		queryKey: APPS_QUERY_KEYS.apps(platform),
+		queryFn: () =>
+			appsApi.getApps({ language: i18n.language, platform, environment }),
 		staleTime: 1000 * 60 * 5, // 5 minutes
 	});
 }

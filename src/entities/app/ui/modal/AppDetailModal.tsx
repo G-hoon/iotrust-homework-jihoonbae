@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { XIcon } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 export function AppDetailModal({
@@ -18,6 +19,7 @@ export function AppDetailModal({
 	onClickLink: () => void;
 	onClose?: () => void;
 }) {
+	const { t } = useTranslation();
 	const [isClosing, setIsClosing] = useState(false); // 닫기 애니메이션 상태 관리
 
 	const handleClose = () => {
@@ -79,7 +81,7 @@ export function AppDetailModal({
 						className="w-[80%] h-[40px] bg-green-500 text-white flex items-center justify-center rounded-full"
 						onClick={onClickLink}
 					>
-						이동
+						{t('go_to_dapp')}
 					</Link>
 				</div>
 			</motion.div>

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import type { BannerData } from '../types';
 
@@ -15,6 +16,7 @@ export function BannerCarousel({
 	autoSlide = true,
 	autoSlideInterval = 4000,
 }: BannerCarouselProps) {
+	const { t } = useTranslation();
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [isDragging, setIsDragging] = useState(false);
 	const [startX, setStartX] = useState(0);
@@ -154,12 +156,12 @@ export function BannerCarousel({
 									<div className="absolute h-[70%] top-[15%] left-[3%] flex flex-col justify-between gap-2">
 										{getDescription(banner) && (
 											<p className="max-w-[330px] text-white text-sm text-[22px] text-left leading-[1.1]">
-												{getDescription(banner)}
+												{t(getDescription(banner))}
 											</p>
 										)}
 										{getButtonText(banner) && (
 											<div className="bg-white text-black text-[16px] flex w-[95px] h-[40px] items-center justify-center text-sm font-medium rounded-full">
-												{getButtonText(banner)}
+												{t(getButtonText(banner))}
 											</div>
 										)}
 									</div>

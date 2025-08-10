@@ -4,7 +4,6 @@ import { bannersApi } from '@/shared/api/banners';
 export const BANNERS_QUERY_KEYS = {
 	all: ['banners'] as const,
 	banners: () => [...BANNERS_QUERY_KEYS.all, 'list'] as const,
-	banner: (id: string) => [...BANNERS_QUERY_KEYS.all, 'detail', id] as const,
 } as const;
 
 export function useBanners() {

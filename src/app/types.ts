@@ -1,4 +1,4 @@
-/** biome-ignore-all lint/suspicious/noExplicitAny: <explanation> */
+/** biome-ignore-all lint/suspicious/noExplicitAny: 모달 상태 관리 */
 import type { ComponentType } from 'react';
 
 export interface ModalInstance {

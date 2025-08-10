@@ -62,9 +62,4 @@ export const bannersApi = {
 	async getBanners(): Promise<BannerData[]> {
 		return mockApiCall('/banners', 'GET', mockBannerData, 400);
 	},
-
-	async getBannerById(id: string): Promise<BannerData | null> {
-		const banner = mockBannerData.find((banner) => banner.id === id) || null;
-		return mockApiCall(`/banners/${id}`, 'GET', banner, 200);
-	},
 };
