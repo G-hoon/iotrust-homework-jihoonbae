@@ -1,7 +1,7 @@
-import { RouterProvider } from './providers/RouteProvider';
+import { AppProviders } from './providers/AppProviders';
 
 function App() {
-	return <RouterProvider />;
+	return <AppProviders />;
 }
 
 export default App;

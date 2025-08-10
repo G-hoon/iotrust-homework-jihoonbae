@@ -1,22 +1,5 @@
 import BookMarkIcon from '@/shared/assets/icons/bookmark.svg?react';
-
-interface AppData {
-	id: string;
-	name: string;
-	iconUrl: string;
-	url: string;
-	description: {
-		ko?: string;
-		en?: string;
-	};
-	supportedNetworks: string[];
-	conditions: {
-		languages: string[];
-		platforms: string[];
-		environments: string[];
-	};
-	remarks?: string;
-}
+import type { AppData } from '../types';
 
 interface AppListItemProps {
 	app: AppData;
@@ -33,7 +16,7 @@ export function AppListItem({
 		<li key={app.id} className="border-b border-gray-300 py-[14px]">
 			<article className="flex items-center gap-3">
 				<div className="w-[70px] aspect-square rounded-lg flex items-center justify-center outline outline-gray-300 object-cover">
-					<img src={'https://picsum.photos/600/400'} alt={app.name} />
+					<img src={app.iconUrl} alt={app.name} className="w-full h-full object-cover rounded-lg" />
 				</div>
 				<div className="flex flex-col gap-2 flex-1 min-w-0">
 					<h3 className="text-[24px] leading-[1] font-medium text-gray-900 truncate line-clamp-1">

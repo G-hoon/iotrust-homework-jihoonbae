@@ -1,6 +1,7 @@
-import type { BannerData } from './types';
+import type { BannerData } from '@/features/banner/types';
+import { mockApiCall } from '@/shared/lib/api-client';
 
-export const bannerData: BannerData[] = [
+const mockBannerData: BannerData[] = [
 	{
 		id: 'mapo-airdrop',
 		type: 'campaign',
@@ -22,7 +23,7 @@ export const bannerData: BannerData[] = [
 		type: 'product',
 		description: {
 			ko: '디센트 지문인증형 지갑으로 한층 더 강화된 보안을 경험하세요!',
-			en: "Enhance your security with D\'CENT biometric wallet",
+			en: "Enhance your security with D'CENT biometric wallet",
 		},
 		image: {
 			default: '/src/shared/assets/images/banner/banner_dcent.png',
@@ -41,7 +42,7 @@ export const bannerData: BannerData[] = [
 		type: 'blog',
 		description: {
 			ko: '새로운 디센트 블로그를 방문하여 최신 업데이트를 먼저 확인해보세요!',
-			en: "Visit the new D\'CENT Blog to explore the latest updates first!",
+			en: "Visit the new D'CENT Blog to explore the latest updates first!",
 		},
 		image: {
 			default: '/src/shared/assets/images/banner/banner_blog.png',
@@ -56,3 +57,14 @@ export const bannerData: BannerData[] = [
 		},
 	},
 ];
+
+export const bannersApi = {
+	async getBanners(): Promise<BannerData[]> {
+		return mockApiCall('/banners', 'GET', mockBannerData, 400);
+	},
+
+	async getBannerById(id: string): Promise<BannerData | null> {
+		const banner = mockBannerData.find((banner) => banner.id === id) || null;
+		return mockApiCall(`/banners/${id}`, 'GET', banner, 200);
+	},
+};
