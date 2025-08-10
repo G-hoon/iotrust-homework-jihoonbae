@@ -1,4 +1,40 @@
+import { AppListItem } from '@/shared/ui';
+
 export function DiscoveryPage() {
+	const favoriteApps = [
+		{
+			id: 'opensea',
+			name: 'OpenSea',
+			iconUrl: '/icons/icon_opensea.png',
+			url: 'https://opensea.io/',
+			description: {
+				ko: 'OpenSea는 수집품, 게임 아이템, 디지털 아트와 같은 이더리움 기반의 디지털 상품 및 디지털 자산을 거래할 수 있는 마켓 플레이스입니다.',
+				en: 'OpenSea is a marketplace for digital goods, including collectibles, game items, digital art, and other digital assets backed by blockchain such as Ethereum.',
+			},
+			supportedNetworks: ['Ethereum', 'Polygon'],
+			conditions: {
+				languages: ['ko', 'en'],
+				platforms: ['android', 'ios'],
+				environments: ['dev', 'stage', 'prod'],
+			},
+		},
+		{
+			id: 'moonpay',
+			name: 'MoonPay',
+			iconUrl: '/icons/icon_moonpay.png',
+			url: 'https://buy.moonpay.com',
+			description: {
+				en: 'MoonPay offers simple and safer way to buy crypto instantly using VISA/Mastercard payment',
+			},
+			supportedNetworks: [],
+			conditions: {
+				languages: ['en'],
+				platforms: ['ios'],
+				environments: ['dev', 'stage', 'prod'],
+			},
+			remarks: '영어를 사용하는 아이폰 사용자에게만 노출',
+		},
+	];
 	const tempMockData = [
 		{
 			id: 'moonpay',
@@ -146,32 +182,32 @@ export function DiscoveryPage() {
 			remarks: '한국어 사용자들에게만 노출',
 		},
 	];
+	const handleDeleteFavorite = (id: string) => {
+		console.log(id);
+	};
 	return (
-		<main className="bg-white px-10 min-h-screen max-w-[634px] mx-auto">
+		<main className="bg-white px-10 flex flex-col gap-10 min-h-screen max-w-[634px] mx-auto">
 			{/* 상단 배너 섹션 */}
-			<section></section>
+			<section className="bg-white mt-[10px]">
+				<h2 className="text-[22px]">즐겨찾기</h2>
+				<ul className="flex flex-col">
+					{favoriteApps.map((app) => (
+						<AppListItem
+							key={app.id}
+							app={app}
+							isFavorite
+							onDeleteFavorite={() => handleDeleteFavorite(app.id)}
+						/>
+					))}
+				</ul>
+			</section>
 
 			{/* 즐겨찾기 섹션 */}
-			<section className="bg-white mt-[10px]">
-				<h2>즐겨찾기</h2>
+			<section className="bg-white">
+				<h2 className="text-[22px]">목록</h2>
 				<ul className="flex flex-col">
 					{tempMockData.map((app) => (
-						<li key={app.id} className="border-b border-gray-300 py-[14px]">
-							<article className="flex items-center gap-3">
-								<div className="w-[100px] aspect-square rounded-lg flex items-center justify-center outline outline-gray-300 object-cover">
-									<img src={'https://picsum.photos/600/400'} alt={app.name} />
-								</div>
-								<div className="flex flex-col gap-3 flex-1 min-w-0">
-									<h3 className="text-[36px] leading-[1] font-medium text-gray-900 truncate line-clamp-1">
-										{app.name}
-									</h3>
-									<p className="text-[18px] text-gray-500 leading-[22px] line-clamp-1">
-										{/* TODO: 마크업에서 보여주기 위한 임시 description 세팅, 추후 다국어 적용시 수정 예정 */}
-										{app.description.ko || app.description.en}
-									</p>
-								</div>
-							</article>
-						</li>
+						<AppListItem key={app.id} app={app} />
 					))}
 				</ul>
 			</section>
