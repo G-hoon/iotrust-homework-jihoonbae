@@ -19,74 +19,76 @@
 - `.env.stage` - 스테이징 환경
 - `.env.prod` - 프로덕션 환경
 
-아래 예시는 npm을 사용했지만, 다른 패키지 매니저(pnpm, yarn 등)를 사용해도 무방합니다.
+이 프로젝트는 pnpm을 사용합니다.
 
 ### 개발 환경
 
 **개발 서버 실행**
 ```bash
-npm run dev
+pnpm dev:dev
 ```
 
 **빌드**
 ```bash
-npm run build:dev
+pnpm build:dev
 ```
 
 ### 스테이징 환경
 
 **개발 서버 실행**
 ```bash
-npm run dev:stage
+pnpm dev:stage
 ```
 
 **빌드**
 ```bash
-npm run build:stage
+pnpm build:stage
 ```
 
 ### 프로덕션 환경
 
 **개발 서버 실행**
 ```bash
-npm run dev:prod
+pnpm dev:prod
 ```
 
 **빌드**
 ```bash
-npm run build:prod
+pnpm build:prod
 ```
 
 ### 기타 명령어
 
 **린트 검사**
 ```bash
-npm run lint
+pnpm lint
 ```
 
 **빌드 결과 미리보기**
 ```bash
-npm run preview
+pnpm preview
 ```
 
 ## 주요 구현 기능
 
 ### 아키텍처 설계
 
-FSD(Feature-Sliced Design) 아키텍처를 참고하여 코드의 모듈성과 재사용성을 높였습니다. 화면의 각 요소를 위젯으로 간주하고, 관련된 모든 코드(API, UI, 유틸리티)를 해당 위젯 폴더 내에 배치하여 응집도를 높였습니다.
+FSD(Feature-Sliced Design) 아키텍처를 참고하여 코드의 모듈성과 재사용성을 높였습니다.
 
-**예시: dapp-list 위젯**
+**실제 폴더 구조:**
 ```
-dapp-list/
-├── index.tsx          # 메인 컴포넌트
-├── apis/              # API 관련 코드
-│   └── dapp-list/
-│       ├── api.ts     # API 함수
-│       └── schema.ts  # 타입 정의
-├── uis/               # UI 컴포넌트
-│   └── detail-bottom-sheet/
-└── utils/             # 유틸리티 함수
-    └── filter-dapp-list.ts
+src/
+├── app/               # 앱 설정 및 프로바이더
+├── entities/          # 비즈니스 엔티티 (앱 관련)
+├── features/          # 기능 단위 (배너 등)
+├── pages/             # 페이지 컴포넌트
+├── shared/            # 공유 리소스
+│   ├── api/           # API 클라이언트
+│   ├── assets/        # 정적 리소스
+│   ├── i18n/          # 다국어 설정
+│   ├── lib/           # 유틸리티
+│   └── store/         # 상태 관리
+└── widgets/           # 위젯 컴포넌트
 ```
 
 ### 1. 다국어 지원 (i18n)
@@ -97,29 +99,22 @@ dapp-list/
 - 우측 상단의 토글 버튼으로 언어를 쉽게 전환할 수 있습니다.
 - 모든 텍스트와 DApp 설명이 선택된 언어에 따라 동적으로 변경됩니다.
 
-### 2. 환경별 조건부 렌더링
+### 2. 상태 관리 (Zustand)
 
-DApp 데이터에 `visibility` 옵션을 추가하여 다양한 조건에 따라 동적으로 노출을 제어합니다.
+전역 상태 관리를 위해 Zustand를 사용했습니다.
 
-- **플랫폼별**: `android`, `ios`, `web` 환경에 따라 표시 여부를 결정합니다.
-- **언어별**: `ko`, `en` 설정에 따라 특정 언어 사용자에게만 노출합니다.
-- **환경별**: `dev`, `stage`, `prod` 빌드 환경에 따라 다른 데이터를 보여줄 수 있습니다.
+- 간단하고 직관적인 API로 상태를 관리합니다.
+- 모달 상태 관리 및 개발 도구 상태 관리에 활용되었습니다.
+- 불필요한 리렌더링을 최소화하여 성능을 최적화했습니다.
 
-```json
-"visibility": {
-  "platform": { "android": true },
-  "language": { "en": true },
-  "environment": { "dev": true, "stage": true }
-}
-```
+### 3. 크로스 플랫폼 테스트 도구 (DevTool)
 
-### 3. 상태 관리 (Jotai)
+웹 환경에서 모바일 플랫폼별 동작을 시뮬레이션할 수 있는 개발자 도구를 구현했습니다.
 
-전역 상태 관리를 위해 원자(atom) 기반의 Jotai를 사용했습니다.
-
-- `currentDeviceAtom`: 현재 디바이스 타입(`android`/`ios`/`web`)을 관리합니다.
-- `currentLanguageAtom`: 현재 언어 설정(`ko`/`en`)을 관리합니다.
-- 각 컴포넌트가 필요한 atom만 구독하여 불필요한 리렌더링을 최소화하고 성능을 최적화했습니다.
+- **플랫폼 시뮬레이션**: 웹 브라우저에서 iOS와 Android 환경을 시뮬레이션할 수 있습니다.
+- **실시간 플랫폼 전환**: 좌측 하단의 🛠️ 버튼을 클릭하여 플랫폼을 즉시 변경할 수 있습니다.
+- **개발 효율성**: 실제 디바이스 없이도 플랫폼별 동작을 테스트할 수 있어 개발 속도를 향상시킵니다.
+- **Zustand 활용**: 플랫폼 상태를 전역으로 관리하여 모든 컴포넌트에서 현재 플랫폼 정보에 접근 가능합니다.
 
 ### 4. 데이터 페칭 및 캐싱 (TanStack Query)
 
@@ -130,13 +125,13 @@ API 요청 및 데이터 캐싱을 위해 TanStack Query를 도입했습니다.
 
 ### 5. UI 컴포넌트
 
-재사용 가능한 공통 UI 컴포넌트를 구현하여 개발 효율성을 높였습니다.
+모달과 애니메이션을 활용한 사용자 인터페이스를 구현했습니다.
 
-- **Modal**: 범용적으로 사용 가능한 기본 모달 컴포넌트입니다.
-- **BottomSheet**: Framer Motion을 활용하여 부드러운 애니메이션을 적용한 모바일 친화적인 하단 시트입니다.
-- **Button**: `variant`, `color`, `size` 등 다양한 옵션을 통해 커스터마이징 가능한 버튼입니다.
+- **Modal**: 앱 상세 정보 표시를 위한 모달 컴포넌트
+- **애니메이션**: Framer Motion을 활용하여 부드러운 사용자 경험 제공
+- **반응형 디자인**: Tailwind CSS를 통한 모바일 친화적 인터페이스
 
-### 6. 배너 슬라이더 (Swiper)
+### 6. 배너 슬라이더
 
 Swiper.js를 사용하여 자동 재생되는 배너 슬라이더를 구현했습니다.
 
@@ -153,7 +148,7 @@ Swiper.js를 사용하여 자동 재생되는 배너 슬라이더를 구현했�
 
 ### 8. DApp 상세 정보
 
-각 DApp을 클릭하면 하단 시트(BottomSheet)를 통해 상세 정보를 표시합니다.
+각 DApp을 클릭하면 모달을 통해 상세 정보를 표시합니다.
 
 - 지원하는 네트워크 정보를 아이콘과 함께 보여줍니다.
 - 현재 설정된 언어에 맞는 DApp 설명을 제공합니다.
